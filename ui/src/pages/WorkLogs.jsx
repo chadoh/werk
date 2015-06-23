@@ -65,7 +65,7 @@ var WorkLogs = React.createClass({
         <table className="table">
           <thead>
             <tr>
-              <th>When</th>
+              <th><a href="#" onClick={this._reverseSort}>When</a></th>
               <th>Hours</th>
               <th>Notes</th>
               <th></th>
@@ -115,6 +115,11 @@ var WorkLogs = React.createClass({
       console.log(getWorkLogState());
     }
     this.setState(getWorkLogState());
+  },
+
+  _reverseSort: function(e) {
+    e.preventDefault();
+    WorkLogRequestActions.reverseSort();
   },
 
   /**

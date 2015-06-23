@@ -27,5 +27,11 @@ module.exports = {
       id: id
     });
     WorkLogApi.destroy(id);
+  },
+
+  reverseSort: function() {
+    AppDispatcher.handleWorkLogAction({
+      actionType: ActionConstants.REVERSE_SORT
+    });
   }
 };

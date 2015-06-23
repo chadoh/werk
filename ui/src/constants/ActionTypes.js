@@ -28,4 +28,6 @@ module.exports = keyMirror({
   WORK_LOG_CREATE_RESPONSE: null,
   WORK_LOG_DESTROY_RESPONSE: null,
 
+  REVERSE_SORT: null,
+
 });

@@ -19,6 +19,7 @@ var DEBUG = false;
 var _name = 'WorkLogStore';
 
 var _workLogs = [];
+var recentFirst = true;
 
 /**
  * Store Start
@@ -41,7 +42,12 @@ var WorkLogStore = assign({}, EventEmitter.prototype, {
   },
 
   getAllWorkLogs: function() {
-    return _workLogs;
+    return _workLogs.sort(function(a,b) {
+      if (recentFirst)
+        return new Date(a.work_date) < new Date(b.work_date);
+      else
+        return new Date(a.work_date) > new Date(b.work_date);
+    });
   },
 
   setWorkLogs: function(data) {
@@ -58,6 +64,10 @@ var WorkLogStore = assign({}, EventEmitter.prototype, {
     return _workLogs = _workLogs.filter(function(log) {
       return log.id !== id
     });
+  },
+
+  reverseSort: function() {
+    return recentFirst = !recentFirst;
   }
 
 });
@@ -88,6 +98,10 @@ AppDispatcher.register(function(payload) {
 
     case Constants.WORK_LOG_DESTROY_RESPONSE:
       WorkLogStore.rmWorkLog(payload.id);
+      break;
+
+    case Constants.REVERSE_SORT:
+      WorkLogStore.reverseSort();
       break;
 
     default:
