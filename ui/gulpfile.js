@@ -56,7 +56,7 @@ gulp.task('clean', del.bind(null, [DEST]));
 // Assets
 gulp.task('assets', function() {
   src.assets = ['src/assets/**'];
-  // Out Put Location
+  // Output Location
   var out = DEST + '/assets';
 
   // Compile Scss
@@ -68,6 +68,19 @@ gulp.task('assets', function() {
     .pipe(gulp.dest(out))
     .pipe($.size({
       title: 'assets'
+    }));
+});
+
+// Fonts
+gulp.task('fonts', function() {
+  src.fonts = ['node_modules/font-awesome/fonts/**'];
+  // Output Location
+  var out = DEST + '/fonts';
+
+  return gulp.src(src.fonts)
+    .pipe(gulp.dest(out))
+    .pipe($.size({
+      title: 'fonts'
     }));
 });
 
@@ -119,10 +132,11 @@ gulp.task('bundle', function(cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function(cb) {
-  runSequence(['assets', 'pages', 'bundle'], function() {
+  runSequence(['assets', 'fonts', 'pages', 'bundle'], function() {
     // If watch flag is set
     if (watch) {
       gulp.watch(src.assets, ['assets']);
+      gulp.watch(src.fonts, ['fonts']);
       gulp.watch(src.pages, ['pages']);
       gulp.watch(DEST + '/**/*.*', function(file) {
         if (file.path.match(/[\.css]$/ig)) {

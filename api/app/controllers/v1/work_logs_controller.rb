@@ -6,8 +6,12 @@ module V1
     end
 
     def create
-      @work_log = WorkLog.create work_log_params
-      render json: @work_log, serializer: WorkLogSerializer
+      @work_log = WorkLog.new work_log_params
+      if @work_log.save
+        render json: @work_log, serializer: WorkLogSerializer
+      else
+        render json: { error: "Couldn't save it :-(" }, status: :unprocessable_entity
+      end
     end
 
     def update

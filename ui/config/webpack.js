@@ -78,7 +78,17 @@ module.exports = function(release) {
       }, {
         test: /\.jsx?$/,
         loader: 'jsx-loader?harmony'
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader'
       }]
+    },
+
+    node: {
+      console: true,
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty'
     }
   };
 };

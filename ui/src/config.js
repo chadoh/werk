@@ -6,8 +6,9 @@
 
 var CFG = {
 
-  // Paint Area for this application
-  container: document.getElementById('app')
+  container: document.getElementById('app'),
+
+  apiUrl: 'http://localhost:3001/v1'
 
 };
 

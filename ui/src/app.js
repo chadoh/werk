@@ -53,6 +53,10 @@ var router = new Router({
   '/todo': function() {
     var page = React.createFactory(require('./pages/ToDo'));
     render(router.getRoute(), page);
+  },
+  '/worklogs': function() {
+    var page = React.createFactory(require('./pages/WorkLogs'));
+    render(router.getRoute(), page);
   }
 });
 router.configure({

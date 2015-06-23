@@ -23,6 +23,13 @@ var AppDispatcher = assign(new Flux.Dispatcher(), {
    */
   handleToDoAction: function(action) {
     this.dispatch(action);
+  },
+
+  /**
+   * WorkLog Handler
+   */
+  handleWorkLogAction: function(action) {
+    this.dispatch(action);
   }
 
 });

@@ -17,6 +17,15 @@ module.exports = keyMirror({
   TODO_REQUEST_DATA: null,
   TODO_ADD: null,
   TODO_TOGGLE_COMPLETE: null,
-  TODO_RECEIVE_DATA: null
+  TODO_RECEIVE_DATA: null,
+
+  // WorkLog Actions
+  WORK_LOG_LIST_REQUEST: null,
+  WORK_LOG_CREATE_REQUEST: null,
+  WORK_LOG_DESTROY_REQUEST: null,
+
+  WORK_LOG_LIST_RESPONSE: null,
+  WORK_LOG_CREATE_RESPONSE: null,
+  WORK_LOG_DESTROY_RESPONSE: null,
 
 });
