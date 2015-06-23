@@ -1,7 +1,7 @@
 module V1
   class WorkLogsController < ApplicationController
     def index
-      @work_logs = WorkLog.all
+      @work_logs = WorkLog.all.order("work_date DESC")
       render json: @work_logs, each_serializer: WorkLogSerializer
     end
 
