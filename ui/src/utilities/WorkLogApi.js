@@ -34,7 +34,8 @@ module.exports = {
     }
     data = { work_log: {
       work_date: data.workDate,
-      total_time: data.totalTime
+      total_time: data.totalTime,
+      notes: data.notes
     }}
     request.post(this.url, {form: data}, function(err, res, body) {
       var data = JSON.parse(body);

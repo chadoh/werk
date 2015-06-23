@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622203551) do
+ActiveRecord::Schema.define(version: 20150623215154) do
 
   create_table "work_logs", force: :cascade do |t|
     t.date     "work_date"
     t.decimal  "total_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "notes"
   end
 
 end

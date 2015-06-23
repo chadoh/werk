@@ -4,6 +4,13 @@
  * App Styles
  */
 
+.form-inline .form-group {
+  margin-right: 1em;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
 .todo-container {
     margin: 20px auto;
     padding: 10px 30px;

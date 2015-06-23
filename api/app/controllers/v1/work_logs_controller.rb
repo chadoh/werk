@@ -29,7 +29,7 @@ module V1
     private
 
     def work_log_params
-      params.require(:work_log).permit(:work_date, :total_time)
+      params.require(:work_log).permit(:work_date, :total_time, :notes)
     end
   end
 end

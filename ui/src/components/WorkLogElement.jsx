@@ -24,6 +24,7 @@ var WorkLogElement = React.createClass({
       <tr>
         <td>{this.props.data.work_date}</td>
         <td>{this.props.data.total_time}</td>
+        <td>{this.props.data.notes}</td>
         <td><button onClick={this.destroy} className="btn btn-link"><i className="fa fa-trash" /></button></td>
       </tr>
     )
