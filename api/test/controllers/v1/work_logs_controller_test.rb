@@ -51,7 +51,9 @@ module V1
 
     test "#destroy returns 202 accepted" do
       work_log = work_logs(:one)
-      delete :destroy, id: work_log.id
+      assert_difference('WorkLog.count', -1) do
+        delete :destroy, id: work_log.id
+      end
 
       assert_response :accepted
       assert_equal "", response.body

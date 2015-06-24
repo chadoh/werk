@@ -11,7 +11,7 @@ module V1
       if @user.save
         render json: @user, serializer: UserSerializer
       else
-        render json: { error: "Couldn't create account :-(" }, status: :unprocessable_entity
+        render json: { error: @user.errors.full_messages.join('; ')}, status: :unprocessable_entity
       end
     end
 
@@ -20,12 +20,12 @@ module V1
       if @user.update user_params
         render json: @user, serializer: UserSerializer
       else
-        render json: { error: "Couldn't create account :-(" }, status: :unprocessable_entity
+        render json: { error: @user.errors.full_messages.join('; ')}, status: :unprocessable_entity
       end
     end
 
     def destroy
-      @user = WorkLog.find params[:id]
+      @user = User.find params[:id]
       @user.destroy
       head :accepted
     end

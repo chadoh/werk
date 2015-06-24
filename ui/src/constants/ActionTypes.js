@@ -34,4 +34,19 @@ module.exports = keyMirror({
   WORK_LOG_EDIT: null,
   REVERSE_SORT: null,
 
+  // User Actions
+  USER_LIST_REQUEST: null,
+  USER_CREATE_REQUEST: null,
+  USER_UPDATE_REQUEST: null,
+  USER_DESTROY_REQUEST: null,
+
+  USER_LIST_RESPONSE: null,
+  USER_CREATE_RESPONSE: null,
+  USER_UPDATE_RESPONSE: null,
+  USER_DESTROY_RESPONSE: null,
+
+  USER_CANCEL_EDIT: null,
+  USER_EDIT: null,
+  USER_ERROR: null,
+
 });

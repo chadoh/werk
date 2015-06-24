@@ -30,7 +30,15 @@ var AppDispatcher = assign(new Flux.Dispatcher(), {
    */
   handleWorkLogAction: function(action) {
     this.dispatch(action);
+  },
+
+  /**
+   * User Handler
+   */
+  handleUserAction: function(action) {
+    this.dispatch(action);
   }
+
 
 });
 

@@ -60,12 +60,6 @@ var WorkLogForm = React.createClass({
     )
   },
 
-  // _setWorkDate: function(e) {
-  //   var workLog = this.state.workLog;
-  //   workLog.work_date = e.target.value;
-  //   this.setState({workLog: workLog});
-  // },
-
   _dupeWorkLog: function() {
     var workLog = {};
     for (var key in this.state.workLog) {

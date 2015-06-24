@@ -54,8 +54,12 @@ var router = new Router({
     var page = React.createFactory(require('./pages/ToDo'));
     render(router.getRoute(), page);
   },
-  '/worklogs': function() {
+  '/work_logs': function() {
     var page = React.createFactory(require('./pages/WorkLogs'));
+    render(router.getRoute(), page);
+  },
+  '/users': function() {
+    var page = React.createFactory(require('./pages/Users'));
     render(router.getRoute(), page);
   }
 });

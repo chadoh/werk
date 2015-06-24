@@ -27,7 +27,7 @@ var Navbar = React.createClass({
             <Link to="/todo">To Do Application</Link>
           </li>
           <li className={this._checkUri('work_logs')}>
-            <Link to="/worklogs">Work Logs</Link>
+            <Link to="/work_logs">Work Logs</Link>
           </li>
         </ul>
       </nav>

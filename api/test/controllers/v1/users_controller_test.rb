@@ -40,7 +40,9 @@ module V1
 
     test "#destroy returns 202 accepted" do
       user = users(:one)
-      delete :destroy, id: user.id
+      assert_difference('User.count', -1) do
+        delete :destroy, id: user.id
+      end
 
       assert_response :accepted
       assert_equal "", response.body

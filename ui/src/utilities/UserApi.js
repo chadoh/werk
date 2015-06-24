@@ -1,16 +1,16 @@
 /**
- * WorkLog API
+ * User API
  */
 'use strict';
 var DEBUG = false;
-var _name = 'WorkLogApi.js';
-var WorkLogResponseActions = require('../actions/WorkLogResponseActions');
+var _name = 'UserApi.js';
+var UserResponseActions = require('../actions/UserResponseActions');
 var AppConfig = require('../config.js');
 var request = require('request');
 
 module.exports = {
 
-  url: AppConfig.apiUrl + '/work_logs',
+  url: AppConfig.apiUrl + '/users',
 
   list: function() {
     if (DEBUG) {
@@ -24,7 +24,7 @@ module.exports = {
         console.log('body: ' + body);
         console.log('data: ' + data);
       }
-      WorkLogResponseActions.list(data);
+      UserResponseActions.list(data);
     });
   },
 
@@ -32,16 +32,19 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':create --- ');
     }
-    data = { work_log: data}
-    request.post(this.url, {form: data}, function(err, res, body) {
-      var data = JSON.parse(body);
+    request.post(this.url, {form: { user: data }}, function(err, res, body) {
+      var parsedBody = JSON.parse(body);
       if (DEBUG) {
         console.log('err: ' + err);
         console.log('res: ' + res);
         console.log('body: ' + body);
-        console.log('data: ' + data);
+        console.log('parsedBody: ' + parsedBody);
       }
-      WorkLogResponseActions.create(data);
+      if ((new String(res.statusCode)).match(/2../)) UserResponseActions.create(parsedBody);
+      else {
+        UserResponseActions.edit(data)
+        UserResponseActions.setError(parsedBody.error);
+      }
     });
   },
 
@@ -49,8 +52,8 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':update --- ');
     }
-    data = { work_log: data }
-    var url = this.url + '/' + data.work_log.id;
+    data = { user: data }
+    var url = this.url + '/' + data.user.id;
     request.patch(url, {form: data}, function(err, res, body) {
       var data = JSON.parse(body);
       if (DEBUG) {
@@ -59,7 +62,7 @@ module.exports = {
         console.log('body: ' + body);
         console.log('data: ' + data);
       }
-      WorkLogResponseActions.update(data);
+      UserResponseActions.update(data);
     });
   },
 
@@ -74,7 +77,7 @@ module.exports = {
         console.log('res: ' + res);
         console.log('body: ' + body);
       }
-      WorkLogResponseActions.destroy(id);
+      UserResponseActions.destroy(id);
     });
   }
 
