@@ -33,8 +33,8 @@ module.exports = {
       console.log('[*] ' + _name + ':create --- ');
     }
     data = { work_log: {
-      work_date: data.workDate,
-      total_time: data.totalTime,
+      work_date: data.work_date,
+      total_time: data.total_time,
       notes: data.notes
     }}
     request.post(this.url, {form: data}, function(err, res, body) {
@@ -48,6 +48,30 @@ module.exports = {
       WorkLogResponseActions.create(data);
     });
   },
+
+  update: function(data) {
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':update --- ');
+    }
+    data = { work_log: {
+      id: data.id,
+      work_date: data.work_date,
+      total_time: data.total_time,
+      notes: data.notes
+    }}
+    var url = this.url + '/' + data.work_log.id;
+    request.patch(url, {form: data}, function(err, res, body) {
+      var data = JSON.parse(body);
+      if (DEBUG) {
+        console.log('err: ' + err);
+        console.log('res: ' + res);
+        console.log('body: ' + body);
+        console.log('data: ' + data);
+      }
+      WorkLogResponseActions.update(data);
+    });
+  },
+
 
   destroy: function(id) {
     if (DEBUG) {

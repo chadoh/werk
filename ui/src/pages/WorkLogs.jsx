@@ -9,10 +9,12 @@ var DefaultLayout = React.createFactory(require('../layouts/Default'));
 var WorkLogRequestActions = require('../actions/WorkLogRequestActions');
 var WorkLogStore = require('../stores/WorkLogStore');
 var WorkLogElement = React.createFactory(require('../components/WorkLogElement'));
+var WorkLogForm = React.createFactory(require('../components/WorkLogForm'));
 
 function getWorkLogState() {
   return {
-    workLogs: WorkLogStore.getAllWorkLogs()
+    workLogs: WorkLogStore.getAllWorkLogs(),
+    editWorkLog: WorkLogStore.getEditWorkLog()
   }
 }
 
@@ -36,32 +38,18 @@ var WorkLogs = React.createClass({
    * Render
    */
   render: function() {
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':render ---');
+      console.log('      workLogs:')
+      console.table(this.state.workLogs);
+      console.log('      editWorkLog:');
+      console.table([this.state.editWorkLog]);
+    }
     return (
       <div>
         <h1>Work Logs</h1>
         <hr/>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">New</h3>
-          </div>
-          <div className="panel-body">
-            <form role="form" className="form-inline" ref="work-log-form" onSubmit={this._submit}>
-              <div className="form-group">
-                <label htmlFor="work-date">Date</label>
-                <input required type="text" className="form-control" placeholder="2015-06-23" ref="work-date" id="work-date" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="total-hours">Hours</label>
-                <input required type="text" className="form-control" placeholder="5.5" ref="total-time" id="total-time" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="notes">Notes</label>
-                <textarea className="form-control" rows="1" placeholder="Saved the world" ref="notes" id="notes" />
-              </div>
-              <button type="submit" className="btn btn-default">Save</button>
-            </form>
-          </div>
-        </div>
+        <WorkLogForm workLog={this.state.editWorkLog} />
         <table className="table">
           <thead>
             <tr>
@@ -73,11 +61,7 @@ var WorkLogs = React.createClass({
           </thead>
           <tbody>
             {this.state.workLogs.map(function(element, index) {
-              if (DEBUG) {
-                console.log('[*] ' + _name + ':render-map-work-logs ---');
-                console.log(element);
-              }
-              return (<WorkLogElement data={element} key={element.id} />);
+              return (<WorkLogElement data={element} key={element.id} underEdit={element.id === this.state.editWorkLog.id} />);
             }, this)}
           </tbody>
         </table>
@@ -88,26 +72,6 @@ var WorkLogs = React.createClass({
   /**
    * Internal Methods
    */
-  _submit: function(e) {
-    e.preventDefault();
-
-    var workDate = this.refs['work-date'].getDOMNode();
-    var totalTime = this.refs['total-time'].getDOMNode();
-    var notes = this.refs['notes'].getDOMNode();
-
-    WorkLogRequestActions.create({
-      workDate: workDate.value,
-      totalTime: totalTime.value,
-      notes: notes.value
-    });
-
-    workDate.value = '';
-    totalTime.value = '';
-    notes.value = '';
-
-    workDate.focus();
-  },
-
   _change: function() {
     if (DEBUG) {
       console.log('[*] ' + _name + ':_change ---');

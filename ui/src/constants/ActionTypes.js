@@ -22,12 +22,16 @@ module.exports = keyMirror({
   // WorkLog Actions
   WORK_LOG_LIST_REQUEST: null,
   WORK_LOG_CREATE_REQUEST: null,
+  WORK_LOG_UPDATE_REQUEST: null,
   WORK_LOG_DESTROY_REQUEST: null,
 
   WORK_LOG_LIST_RESPONSE: null,
   WORK_LOG_CREATE_RESPONSE: null,
+  WORK_LOG_UPDATE_RESPONSE: null,
   WORK_LOG_DESTROY_RESPONSE: null,
 
+  WORK_LOG_CANCEL_EDIT: null,
+  WORK_LOG_EDIT: null,
   REVERSE_SORT: null,
 
 });

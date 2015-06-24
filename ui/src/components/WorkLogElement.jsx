@@ -11,7 +11,15 @@ var WorkLogRequestActions = require('../actions/WorkLogRequestActions');
 var WorkLogElement = React.createClass({
   displayName: _name,
 
-  destroy: function() {
+  _edit: function() {
+    WorkLogRequestActions.edit(this.props.data);
+  },
+
+  _cancelEdit: function() {
+    WorkLogRequestActions.cancelEdit();
+  },
+
+  _destroy: function() {
     WorkLogRequestActions.destroy(this.props.data.id);
   },
 
@@ -20,12 +28,26 @@ var WorkLogElement = React.createClass({
       console.log('[*] ' + _name + ':render ---');
       console.log(this.props);
     }
+    var actions;
+    if (!this.props.underEdit) {
+      actions = <div>
+        <button onClick={this._edit} className="btn btn-link"><i className="fa fa-pencil" /></button>
+        <button onClick={this._destroy} className="btn btn-link"><i className="fa fa-trash" /></button>
+      </div>
+    } else {
+      actions = <div>
+        <button onClick={this._cancelEdit} className="btn btn-link"><i className="fa fa-ban" /></button>
+        <button disabled className="btn btn-link"><i className="fa fa-arrow-up" /></button>
+      </div>
+    }
     return (
       <tr>
-        <td>{this.props.data.work_date}</td>
-        <td>{this.props.data.total_time}</td>
-        <td>{this.props.data.notes}</td>
-        <td><button onClick={this.destroy} className="btn btn-link"><i className="fa fa-trash" /></button></td>
+        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.work_date}</td>
+        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.total_time}</td>
+        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.notes}</td>
+        <td>
+          {actions}
+        </td>
       </tr>
     )
   }

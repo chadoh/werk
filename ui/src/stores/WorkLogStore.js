@@ -19,6 +19,8 @@ var DEBUG = false;
 var _name = 'WorkLogStore';
 
 var _workLogs = [];
+var _blankWorkLog = { id: '', work_date: '', total_time: '', notes: '' }
+var _editWorkLog = _blankWorkLog;
 var recentFirst = true;
 
 /**
@@ -44,10 +46,18 @@ var WorkLogStore = assign({}, EventEmitter.prototype, {
   getAllWorkLogs: function() {
     return _workLogs.sort(function(a,b) {
       if (recentFirst)
-        return new Date(a.work_date) < new Date(b.work_date);
+        return new Date(b.work_date) - new Date(a.work_date);
       else
-        return new Date(a.work_date) > new Date(b.work_date);
+        return new Date(a.work_date) - new Date(b.work_date);
     });
+  },
+
+  getEditWorkLog: function() {
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':getEditWorkLog ---');
+      console.table([_editWorkLog]);
+    }
+    return _editWorkLog;
   },
 
   setWorkLogs: function(data) {
@@ -58,6 +68,36 @@ var WorkLogStore = assign({}, EventEmitter.prototype, {
   addWorkLog: function(data) {
     _workLogs.push(data);
     return _workLogs[_workLogs.length - 1];
+  },
+
+  edit: function(data) {
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':editWorkLog ---');
+      console.log('data:');
+      console.log(data);
+      console.log('_editWorkLog:');
+      console.log([_editWorkLog]);
+    }
+    return _editWorkLog = data;
+  },
+
+  cancelEdit: function() {
+    return _editWorkLog = _blankWorkLog;
+  },
+
+  updateWorkLog: function(data) {
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':updateWorkLog ---');
+      console.log('data:');
+      console.log(data);
+      console.log('_editWorkLog:');
+      console.log([_editWorkLog]);
+    }
+    var updated = _workLogs.filter(function(log) { return log.id === data.id })[0];
+    for (var key in data) {
+      updated[key] = data[key];
+    }
+    _editWorkLog = _blankWorkLog;
   },
 
   rmWorkLog: function(id) {
@@ -83,6 +123,8 @@ AppDispatcher.register(function(payload) {
     console.log('[*] ' + _name + ':Dispatch-Begin --- ' + action);
     console.log('     Payload:');
     console.log(payload);
+    console.log('     _editWorklog:');
+    console.table([_editWorkLog]);
   }
 
   // Route Logic
@@ -100,13 +142,25 @@ AppDispatcher.register(function(payload) {
       WorkLogStore.rmWorkLog(payload.id);
       break;
 
+    case Constants.WORK_LOG_EDIT:
+      WorkLogStore.edit(payload.data);
+      break;
+
+    case Constants.WORK_LOG_CANCEL_EDIT:
+      WorkLogStore.cancelEdit();
+      break;
+
+    case Constants.WORK_LOG_UPDATE_RESPONSE:
+      WorkLogStore.updateWorkLog(payload.data);
+      break;
+
     case Constants.REVERSE_SORT:
       WorkLogStore.reverseSort();
       break;
 
     default:
       if (DEBUG) {
-        console.log('[x] ' + _name + ':actionType --- NOT MATCH');
+        console.log('[x] ' + _name + ':actionType --- NO MATCH');
       }
       return true;
   }

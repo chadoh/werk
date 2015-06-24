@@ -15,6 +15,17 @@ module.exports = {
     });
     WorkLogApi.create(data);
   },
+  update: function(data) {
+    AppDispatcher.handleWorkLogAction({
+      actionType: ActionConstants.WORK_LOG_UPDATE_REQUEST,
+      data: data
+    });
+    WorkLogApi.update(data);
+  },
+  save: function(data) {
+    if (data.id) this.update(data);
+    else this.create(data);
+  },
   fetchWorkLogs: function() {
     AppDispatcher.handleWorkLogAction({
       actionType: ActionConstants.WORK_LOG_LIST_REQUEST
@@ -29,6 +40,17 @@ module.exports = {
     WorkLogApi.destroy(id);
   },
 
+  edit: function(data) {
+    AppDispatcher.handleWorkLogAction({
+      actionType: ActionConstants.WORK_LOG_EDIT,
+      data: data
+    });
+  },
+  cancelEdit: function(data) {
+    AppDispatcher.handleWorkLogAction({
+      actionType: ActionConstants.WORK_LOG_CANCEL_EDIT
+    });
+  },
   reverseSort: function() {
     AppDispatcher.handleWorkLogAction({
       actionType: ActionConstants.REVERSE_SORT

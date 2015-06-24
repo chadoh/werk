@@ -7,15 +7,21 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var ActionConstants = require('../constants/ActionTypes');
 
 module.exports = {
+  list: function(data) {
+    AppDispatcher.handleWorkLogAction({
+      actionType: ActionConstants.WORK_LOG_LIST_RESPONSE,
+      data: data
+    });
+  },
   create: function(data) {
     AppDispatcher.handleWorkLogAction({
       actionType: ActionConstants.WORK_LOG_CREATE_RESPONSE,
       data: data
     });
   },
-  list: function(data) {
+  update: function(data) {
     AppDispatcher.handleWorkLogAction({
-      actionType: ActionConstants.WORK_LOG_LIST_RESPONSE,
+      actionType: ActionConstants.WORK_LOG_UPDATE_RESPONSE,
       data: data
     });
   },
