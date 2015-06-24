@@ -3,7 +3,9 @@
 one:
   work_date: 2015-06-22
   total_time: 9.99
+  user: one
 
 two:
   work_date: 2015-06-22
   total_time: 9.99
+  user: two
