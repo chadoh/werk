@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :v1, defaults: { format: :json } do
     resources :work_logs, except: [:new, :edit, :show]
+    resources :users, only: [:create, :update, :destroy]
   end
   root to: "v1/work_logs#index"
 end
