@@ -1,6 +1,11 @@
 module V1
 
   class UsersController < ApplicationController
+    def index
+      @users = User.all
+      render json: @users, each_serializer: UserSerializer
+    end
+
     def create
       @user = User.new user_params
       if @user.save
@@ -8,6 +13,21 @@ module V1
       else
         render json: { error: "Couldn't create account :-(" }, status: :unprocessable_entity
       end
+    end
+
+    def update
+      @user = User.find params[:id]
+      if @user.update user_params
+        render json: @user, serializer: UserSerializer
+      else
+        render json: { error: "Couldn't create account :-(" }, status: :unprocessable_entity
+      end
+    end
+
+    def destroy
+      @user = WorkLog.find params[:id]
+      @user.destroy
+      head :accepted
     end
 
     private
