@@ -1,10 +1,10 @@
-# Chad's Toptal Project
+# Werk
 
-This is a project for Phase 3 of Chad's Toptal interview process.
+A simple time tracker app.
 
-## Project description
+## Project requirements
 
-Write a simple time management system.
+A simple time management system.
 
 * User must be able to create an account and log in
 * User can add (and edit and delete) a row what he has worked on, what date,
@@ -37,12 +37,6 @@ Write a simple time management system.
 * You will not be marked on graphic design, however, do try to keep it as tidy
   as possible.
 
-NOTE: Please keep in mind that this is the project that will be used to
-evaluate your skills. The project will be evaluated as if you are delivering it
-to a customer. We expect you to make sure that the app is fully functional and
-doesn’t have any obvious missing pieces. The deadline for the project is
-2 weeks from today.
-
 ## Approach
 
 I am building the API layer with Rails (rails-api, specifically) and the UI
@@ -54,3 +48,9 @@ Both repos are to be deployed separately. The UI layer, if we don't need
 isomorphism (view rendering on the server), could be deployed entirely on AWS
 S3, and cached with Amazon Cloudfront. That would make downloading of the
 assets happen nice and fast!
+
+## Todo
+
+- [ ] Make real authentication (it's currently storing user's plain text passwords in a cookie! :frowning:)
+- [ ] Allow admins to view other user's records
+- [ ] Add "print"/"export" button to save the page as html
