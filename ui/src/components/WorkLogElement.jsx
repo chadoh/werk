@@ -41,14 +41,13 @@ var WorkLogElement = React.createClass({
       </div>
     }
     return (
-      <tr>
-        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.work_date}</td>
+      <div>
         <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.total_time}</td>
         <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.notes}</td>
         <td>
           {actions}
         </td>
-      </tr>
+      </div>
     )
   }
 

@@ -11,6 +11,7 @@ var WorkLogStore = require('../stores/WorkLogStore');
 var WorkLogRequestActions = require('../actions/WorkLogRequestActions');
 var WorkLogElement = React.createFactory(require('../components/WorkLogElement'));
 var WorkLogForm = React.createFactory(require('../components/WorkLogForm'));
+var WorkLogGroup = React.createFactory(require('../components/WorkLogGroup'));
 
 function getWorkLogState() {
   return {
@@ -47,6 +48,15 @@ var WorkLogs = React.createClass({
       console.table([this.state.editWorkLog]);
     }
 
+    var groupedWorkLogs = {};
+    this.state.workLogs.forEach(function(workLog) {
+      if (groupedWorkLogs[workLog.work_date]) groupedWorkLogs[workLog.work_date].push(workLog);
+      else groupedWorkLogs[workLog.work_date] = [workLog];
+    });
+    var list = [];
+    for (var date in groupedWorkLogs) {
+      list.push(<WorkLogGroup date={date} workLogs={groupedWorkLogs[date]} key={date} editWorkLog={this.state.editWorkLog} />)
+    }
     var content;
     if (SessionStore.getSession().email) {
       content = <div>
@@ -62,11 +72,7 @@ var WorkLogs = React.createClass({
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.workLogs.map(function(element, index) {
-              return (<WorkLogElement data={element} key={element.id} underEdit={element.id === this.state.editWorkLog.id} />);
-            }, this)}
-          </tbody>
+          {list}
         </table>
       </div>
     } else {
