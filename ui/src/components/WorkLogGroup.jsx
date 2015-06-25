@@ -19,10 +19,19 @@ var WorkLogGroup = React.createClass({
 
   _metPreferredHours: function() {
     var hours = this.props.workLogs.map(function(workLog) {
-      return workLog.total_time
+      return parseFloat(workLog.total_time)
     }).reduce(function(prev, curr) {
       return prev + curr;
     });
+    if (DEBUG) {
+      console.log('[*] ' + _name + ':_metPreferredHours');
+      console.log('     date:');
+      console.log(this.props.date);
+      console.log('     hours:');
+      console.log(hours);
+      console.log('     preferredHours');
+      console.log(preferredHours());
+    }
     return hours >= preferredHours();
   },
 
