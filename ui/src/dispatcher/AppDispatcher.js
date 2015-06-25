@@ -37,7 +37,14 @@ var AppDispatcher = assign(new Flux.Dispatcher(), {
    */
   handleUserAction: function(action) {
     this.dispatch(action);
-  }
+  },
+
+  /**
+   * Session Handler
+   */
+  handleSessionAction: function(action) {
+    this.dispatch(action);
+  },
 
 
 });

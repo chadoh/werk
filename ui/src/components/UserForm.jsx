@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var DEBUG = true;
+var DEBUG = false;
 var _name = 'UserForm.jsx';
 var React = require('react');
 var UserRequestActions = require('../actions/UserRequestActions');

@@ -1,5 +1,4 @@
 module V1
-
   class UsersController < ApplicationController
     def index
       @users = User.all
@@ -28,6 +27,15 @@ module V1
       @user = User.find params[:id]
       @user.destroy
       head :accepted
+    end
+
+    def signin
+      user = User.find_by_email(params[:email])
+      if user && user.valid_password?(params[:password])
+        render json: { email: params[:email], password: params[:password] }
+      else
+        render json: { error: "Email or password incorrect" }, status: :unauthorized
+      end
     end
 
     private

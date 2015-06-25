@@ -6,15 +6,16 @@ var DEBUG = false;
 var _name = 'WorkLogs.jsx';
 var React = require('react');
 var DefaultLayout = React.createFactory(require('../layouts/Default'));
-var WorkLogRequestActions = require('../actions/WorkLogRequestActions');
+var SessionStore = require('../stores/SessionStore');
 var WorkLogStore = require('../stores/WorkLogStore');
+var WorkLogRequestActions = require('../actions/WorkLogRequestActions');
 var WorkLogElement = React.createFactory(require('../components/WorkLogElement'));
 var WorkLogForm = React.createFactory(require('../components/WorkLogForm'));
 
 function getWorkLogState() {
   return {
     workLogs: WorkLogStore.getAllWorkLogs(),
-    editWorkLog: WorkLogStore.getEditWorkLog()
+    editWorkLog: WorkLogStore.getEditWorkLog(),
   }
 }
 
@@ -45,8 +46,10 @@ var WorkLogs = React.createClass({
       console.log('      editWorkLog:');
       console.table([this.state.editWorkLog]);
     }
-    return (
-      <div>
+
+    var content;
+    if (SessionStore.getSession().email) {
+      content = <div>
         <h1>Work Logs</h1>
         <hr/>
         <WorkLogForm workLog={this.state.editWorkLog} />
@@ -66,19 +69,27 @@ var WorkLogs = React.createClass({
           </tbody>
         </table>
       </div>
-    );
+    } else {
+      content = <h1>Sign in to see your work logs</h1>
+    }
+
+    return content
   },
 
   /**
    * Internal Methods
    */
-  _change: function() {
+  _changeWorkLog: function() {
     if (DEBUG) {
       console.log('[*] ' + _name + ':_change ---');
       console.log('state: ');
       console.log(getWorkLogState());
     }
     this.setState(getWorkLogState());
+  },
+
+  _changeSession: function() {
+    setTimeout(WorkLogRequestActions.list, 500);
   },
 
   _reverseSort: function(e) {
@@ -93,8 +104,9 @@ var WorkLogs = React.createClass({
     if (DEBUG) {
       console.log('[*] ' + _name + ':componentWillMount ---');
     }
-    WorkLogStore.addChangeListener(this._change);
-    WorkLogRequestActions.fetchWorkLogs();
+    WorkLogStore.addChangeListener(this._changeWorkLog);
+    SessionStore.addChangeListener(this._changeSession);
+    WorkLogRequestActions.list();
   },
   componentDidMount: function() {
     if (DEBUG) {
@@ -109,7 +121,8 @@ var WorkLogs = React.createClass({
     if (DEBUG) {
       console.log('[*] ' + _name + ':componentWillUnmount ---');
     }
-    WorkLogStore.removeChangeListener(this._change);
+    WorkLogStore.removeChangeListener(this._changeWorkLog);
+    SessionStore.removeChangeListener(this._changeSession);
   }
 });
 

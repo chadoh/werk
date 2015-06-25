@@ -43,18 +43,6 @@ function render(uri, page) {
 var router = new Router({
   // Main Route
   '/': function() {
-    var page = React.createFactory(require('./pages/Index'));
-    render(router.getRoute(), page);
-  },
-  '/libraries': function() {
-    var page = React.createFactory(require('./pages/Libraries'));
-    render(router.getRoute(), page);
-  },
-  '/todo': function() {
-    var page = React.createFactory(require('./pages/ToDo'));
-    render(router.getRoute(), page);
-  },
-  '/work_logs': function() {
     var page = React.createFactory(require('./pages/WorkLogs'));
     render(router.getRoute(), page);
   },

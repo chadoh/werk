@@ -1,5 +1,5 @@
 /**
- * ToDo Actions
+ * User Actions
  */
 'use strict';
 

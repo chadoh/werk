@@ -7,6 +7,14 @@ var _name = 'WorkLogApi.js';
 var WorkLogResponseActions = require('../actions/WorkLogResponseActions');
 var AppConfig = require('../config.js');
 var request = require('request');
+var SessionStore = require('../stores/SessionStore');
+
+function auth() {
+  return {
+    user: SessionStore.getSession().email,
+    pass: SessionStore.getSession().password
+  }
+}
 
 module.exports = {
 
@@ -16,7 +24,7 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':list --- ');
     }
-    request.get(this.url, function(err, res, body) {
+    request.get(this.url, {auth: auth()}, function(err, res, body) {
       var data = JSON.parse(body);
       if (DEBUG) {
         console.log('err: ' + err);
@@ -32,16 +40,19 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':create --- ');
     }
-    data = { work_log: data}
-    request.post(this.url, {form: data}, function(err, res, body) {
-      var data = JSON.parse(body);
+    request({
+      method: 'POST',
+      uri: this.url,
+      auth: auth(),
+      form: { work_log: data }
+    },
+    function(err, res, body) {
       if (DEBUG) {
         console.log('err: ' + err);
         console.log('res: ' + res);
         console.log('body: ' + body);
-        console.log('data: ' + data);
       }
-      WorkLogResponseActions.create(data);
+      WorkLogResponseActions.create(JSON.parse(body));
     });
   },
 
@@ -49,9 +60,14 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':update --- ');
     }
-    data = { work_log: data }
-    var url = this.url + '/' + data.work_log.id;
-    request.patch(url, {form: data}, function(err, res, body) {
+    var url = this.url + '/' + data.id;
+    request({
+      method: 'PATCH',
+      uri: url,
+      auth: auth(),
+      form: { work_log: data }
+    },
+    function(err, res, body) {
       var data = JSON.parse(body);
       if (DEBUG) {
         console.log('err: ' + err);
@@ -68,7 +84,12 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':destroy --- ');
     }
-    request.del(this.url + '/' + id, function(err, res, body) {
+    request({
+      method: 'DELETE',
+      uri: this.url + '/' + id,
+      auth: auth()
+    },
+    function(err, res, body) {
       if (DEBUG) {
         console.log('err: ' + err);
         console.log('res: ' + res);

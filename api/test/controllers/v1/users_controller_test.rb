@@ -47,5 +47,19 @@ module V1
       assert_response :accepted
       assert_equal "", response.body
     end
+
+    test "#sign_in returns 401 if auth fails" do
+      post :signin, email: 'whatever', password: 'nope'
+      assert_response :unauthorized
+    end
+
+    test "#sign_in returns user json if auth succeeds" do
+      user = users(:one)
+      post :signin, email: user.email, password: 'password'
+      assert_response :success
+      json = JSON.parse(response.body)
+      assert_equal user.email, json['email']
+      assert_equal 'password', json['password']
+    end
   end
 end

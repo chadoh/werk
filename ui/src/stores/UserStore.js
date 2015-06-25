@@ -15,14 +15,13 @@ var Constants = require('../constants/ActionTypes');
  * Variables
  */
 var CHANGE_EVENT = 'change';
-var DEBUG = true;
+var DEBUG = false;
 var _name = 'UserStore';
 
 var _users = [];
 var _blankUser = { id: '', email: '' }
 var _editUser = _blankUser;
 var _error = null;
-var recentFirst = true;
 
 /**
  * Store Start
@@ -117,10 +116,6 @@ var UserStore = assign({}, EventEmitter.prototype, {
     });
   },
 
-  reverseSort: function() {
-    return recentFirst = !recentFirst;
-  }
-
 });
 
 /**
@@ -167,10 +162,6 @@ AppDispatcher.register(function(payload) {
 
     case Constants.USER_UPDATE_RESPONSE:
       UserStore.updateUser(payload.data);
-      break;
-
-    case Constants.REVERSE_SORT:
-      UserStore.reverseSort();
       break;
 
     default:

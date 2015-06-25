@@ -49,4 +49,10 @@ module.exports = keyMirror({
   USER_EDIT: null,
   USER_ERROR: null,
 
+  // Session Actions
+  SIGN_IN_REQUEST: null,
+  SIGN_IN_RESPONSE: null,
+  SIGN_OUT: null,
+  SESSION_ERROR: null,
+
 });

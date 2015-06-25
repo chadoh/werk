@@ -35,14 +35,5 @@ module V1
     def work_log_params
       params.require(:work_log).permit(:work_date, :total_time, :notes)
     end
-
-    def authenticate
-      authenticate_or_request_with_http_basic do |username,password|
-        user = User.find_by_email(username)
-        if user.valid_password?(password)
-          sign_in :user, user
-        end
-      end
-    end
   end
 end

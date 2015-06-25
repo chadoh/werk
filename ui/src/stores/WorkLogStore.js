@@ -158,6 +158,10 @@ AppDispatcher.register(function(payload) {
       WorkLogStore.reverseSort();
       break;
 
+    case Constants.SIGN_OUT:
+      WorkLogStore.setWorkLogs([]);
+      break;
+
     default:
       if (DEBUG) {
         console.log('[x] ' + _name + ':actionType --- NO MATCH');
