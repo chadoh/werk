@@ -47,7 +47,7 @@ var WorkLogForm = React.createClass({
               </div>
               <div className="form-group">
                 <label htmlFor="total-hours">Hours</label>
-                <input required type="text" className="form-control" placeholder="5.5" ref="total-time" id="total-time" value={this.state.workLog.total_time} onChange={this._setTotalTime} />
+                <input required type="number" step="0.5" className="form-control" placeholder="5.5" ref="total-time" id="total-time" value={this.state.workLog.total_time} onChange={this._setTotalTime} />
               </div>
               <div className="form-group">
                 <label htmlFor="notes">Notes</label>
