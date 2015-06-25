@@ -7,6 +7,14 @@ var _name = 'UserApi.js';
 var UserResponseActions = require('../actions/UserResponseActions');
 var AppConfig = require('../config.js');
 var request = require('request');
+var SessionStore = require('../stores/SessionStore');
+
+function auth() {
+  return {
+    user: SessionStore.getSession().email,
+    pass: SessionStore.getSession().password
+  }
+}
 
 module.exports = {
 
@@ -16,7 +24,11 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':list --- ');
     }
-    request.get(this.url, function(err, res, body) {
+    request({
+      method: 'GET',
+      uri: this.url,
+      auth: auth()
+    }, function(err, res, body) {
       var data = JSON.parse(body);
       if (DEBUG) {
         console.log('err: ' + err);
@@ -52,9 +64,14 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':update --- ');
     }
-    data = { user: data }
-    var url = this.url + '/' + data.user.id;
-    request.patch(url, {form: data}, function(err, res, body) {
+    var url = this.url + '/' + data.id;
+    request({
+      method: 'PATCH',
+      uri: url,
+      form: { user: data },
+      auth: auth()
+    },
+    function(err, res, body) {
       var data = JSON.parse(body);
       if (DEBUG) {
         console.log('err: ' + err);
@@ -71,7 +88,12 @@ module.exports = {
     if (DEBUG) {
       console.log('[*] ' + _name + ':destroy --- ');
     }
-    request.del(this.url + '/' + id, function(err, res, body) {
+    request({
+      method: 'DELETE',
+      uri: this.url,
+      auth: auth()
+    },
+    function(err, res, body) {
       if (DEBUG) {
         console.log('err: ' + err);
         console.log('res: ' + res);

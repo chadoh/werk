@@ -61,6 +61,8 @@ var Users = React.createClass({
           <thead>
             <tr>
               <th>Email</th>
+              <th>Preferred Hours</th>
+              <th>Is Admin</th>
               <th></th>
             </tr>
           </thead>

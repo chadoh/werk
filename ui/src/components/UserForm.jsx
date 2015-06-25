@@ -8,9 +8,14 @@ var _name = 'UserForm.jsx';
 var React = require('react');
 var UserRequestActions = require('../actions/UserRequestActions');
 var UserStore = require('../stores/UserStore');
+var SessionStore = require('../stores/SessionStore');
 
 function _getError() {
   return UserStore.getError()
+}
+
+function _getSession() {
+  return SessionStore.getSession();
 }
 
 var UserForm = React.createClass({
@@ -57,11 +62,23 @@ var UserForm = React.createClass({
           {this.state.error}
         </div>
       </div>;
-    var extraFields = !this.state.user.id ? '' :
+    var preferredHourField = !this.state.user.id && !_getSession().is_admin ? '' :
       <div className="form-group">
-        <label htmlFor="hours">How many hours a day do you want to work?</label>
+        <label htmlFor="hours">Preferred hours</label>
         <input required type="number" step="0.5" className="form-control" ref="hours" id="hours" value={this.state.user.preferred_hours_per_day} onChange={this._setHours} />
       </div>;
+    var adminField = !_getSession().is_admin ? '' :
+      <div className="form-group">
+        <label>Admin?</label>
+        <label className="radio-inline">
+          <input type="radio" name="is_admin" value="true" onChange={this._setAdmin} checked={this.state.user.is_admin} /> yes
+        </label>
+        <label className="radio-inline">
+          <input type="radio" name="is_admin" value="false" onChange={this._setAdmin} checked={!this.state.user.is_admin} /> no
+        </label>
+      </div>;
+    var extraFields = <div>{preferredHourField}{adminField}</div>;
+
     return (
       <div>
         {errors}
@@ -72,13 +89,15 @@ var UserForm = React.createClass({
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input required type="password" className="form-control" ref="password" id="password" value={this.state.user.password} onChange={this._setPassword} />
+            <input type="password" className="form-control" ref="password" id="password" value={this.state.user.password} onChange={this._setPassword} />
           </div>
           <div className="form-group">
             <label htmlFor="confirmation">Password confirmation</label>
-            <input required type="password" className="form-control" ref="confirmation" id="confirmation" value={this.state.user.password_confirmation} onChange={this._setConfirmation} />
+            <input type="password" className="form-control" ref="confirmation" id="confirmation" value={this.state.user.password_confirmation} onChange={this._setConfirmation} />
           </div>
+          <br /><br />
           {extraFields}
+          <br /><br />
           <button type="submit" className="btn btn-default">Save</button>
         </form>
       </div>
@@ -117,6 +136,12 @@ var UserForm = React.createClass({
     this.setState({user: user});
   },
 
+  _setAdmin: function(e) {
+    var user = this._dupeUser();
+    user.is_admin = e.target.value;
+    this.setState({user: user});
+  },
+
   _submit: function(e) {
     e.preventDefault();
 
@@ -125,7 +150,8 @@ var UserForm = React.createClass({
       email: this.state.user.email,
       password: this.state.user.password,
       password_confirmation: this.state.user.password_confirmation,
-      preferred_hours_per_day: this.state.user.preferred_hours_per_day
+      preferred_hours_per_day: this.state.user.preferred_hours_per_day,
+      is_admin: this.state.user.is_admin
     });
   },
 

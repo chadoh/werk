@@ -44,6 +44,8 @@ var UserElement = React.createClass({
     return (
       <tr>
         <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.email}</td>
+        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.preferred_hours_per_day}</td>
+        <td className={this.props.underEdit ? "text-muted" : ""}>{this.props.data.is_admin && <i className="fa fa-check" />}</td>
         <td>
           {actions}
         </td>

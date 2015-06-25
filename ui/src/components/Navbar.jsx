@@ -96,10 +96,16 @@ var Navbar = React.createClass({
       </div>
     }
 
+    var manageUsers = !this.state.session.is_admin ? '' :
+      <ul className="nav navbar-nav">
+        <li><Link to="/users">Manage Users</Link></li>
+      </ul>;
+
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <Link style={{ marginRight: '30px' }} className="navbar-brand" to="/">Werk</Link>
+          {manageUsers}
           <div className="collapse navbar-collapse">
             {loginStuff}
           </div>

@@ -21,7 +21,7 @@ var DEBUG = false;
 var _name = 'UserStore';
 
 var _users = [];
-var _blankUser = { id: '', email: '' }
+var _blankUser = { id: '', email: '', is_admin: false }
 var _editUser = _blankUser;
 var _error = null;
 
