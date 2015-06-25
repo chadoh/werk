@@ -17,7 +17,8 @@ var UserForm = React.createClass({
   displayName: _name,
 
   propTypes: {
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    className: React.PropTypes.string
   },
 
   getInitialState: function() {
@@ -57,29 +58,24 @@ var UserForm = React.createClass({
         </div>
       </div>
     return (
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">{this.state.user.id ? "Edit" : "New"}</h3>
+      <div>
+        {errors}
+        <form role="form" className={this.props.className} ref="work-log-form" onSubmit={this._submit}>
+          <div className="form-group">
+            <label htmlFor="work-date">Email</label>
+            <input required type="text" className="form-control" ref="email" id="email" value={this.state.user.email} onChange={this._setEmail} />
           </div>
-          <div className="panel-body">
-            {errors}
-            <form role="form" className="form-inline" ref="work-log-form" onSubmit={this._submit}>
-              <div className="form-group">
-                <label htmlFor="work-date">Email</label>
-                <input required type="text" className="form-control" ref="email" id="email" value={this.state.user.email} onChange={this._setEmail} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="work-date">Password</label>
-                <input required type="password" className="form-control" ref="password" id="password" value={this.state.user.password} onChange={this._setPassword} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="work-date">Password confirmation</label>
-                <input required type="password" className="form-control" ref="confirmation" id="confirmation" value={this.state.user.password_confirmation} onChange={this._setConfirmation} />
-              </div>
-              <button type="submit" className="btn btn-default">Save</button>
-            </form>
+          <div className="form-group">
+            <label htmlFor="work-date">Password</label>
+            <input required type="password" className="form-control" ref="password" id="password" value={this.state.user.password} onChange={this._setPassword} />
           </div>
-        </div>
+          <div className="form-group">
+            <label htmlFor="work-date">Password confirmation</label>
+            <input required type="password" className="form-control" ref="confirmation" id="confirmation" value={this.state.user.password_confirmation} onChange={this._setConfirmation} />
+          </div>
+          <button type="submit" className="btn btn-default">Save</button>
+        </form>
+      </div>
     )
   },
 

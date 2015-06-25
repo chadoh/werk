@@ -67,7 +67,9 @@ var Navbar = React.createClass({
       <p className="navbar-text">{this.state.error}</p>;
 
     var loginStuff;
-    if (this.state.session.email) {
+    if (this.props.auth === "false") {
+      loginStuff = '';
+    } else if (this.state.session.email) {
       loginStuff = <p className="navbar-text navbar-right">
         Signed in as {this.state.session.email} &ndash;&nbsp;
         <a href="#" onClick={this._signOut} className="navbar-link">Sign Out</a>
@@ -86,6 +88,9 @@ var Navbar = React.createClass({
           </div>
           <button type="submit" className="btn btn-default">Sign In</button>
         </form>
+        <ul className="nav navbar-nav">
+          <li><Link to="/signup">Sign Up</Link></li>
+        </ul>
       </div>
     }
 

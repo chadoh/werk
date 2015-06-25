@@ -49,6 +49,10 @@ var router = new Router({
   '/users': function() {
     var page = React.createFactory(require('./pages/Users'));
     render(router.getRoute(), page);
+  },
+  '/signup': function() {
+    var page = React.createFactory(require('./pages/SignUp'));
+    render(router.getRoute(), page);
   }
 });
 router.configure({

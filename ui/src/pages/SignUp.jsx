@@ -3,22 +3,20 @@
  */
 'use strict';
 var DEBUG = false;
-var _name = 'Users.jsx';
+var _name = 'SignUp.jsx';
 var React = require('react');
-var DefaultLayout = React.createFactory(require('../layouts/Default'));
-var UserRequestActions = require('../actions/UserRequestActions');
+var SignUpLayout = React.createFactory(require('../layouts/SignUp'));
+var RouteActions = require('../actions/RouteActions');
 var UserStore = require('../stores/UserStore');
-var UserElement = React.createFactory(require('../components/UserElement'));
 var UserForm = React.createFactory(require('../components/UserForm'));
 
 function getUserState() {
   return {
-    users: UserStore.getAllUsers(),
-    editUser: UserStore.getEditUser()
+    user: UserStore.getEditUser()
   }
 }
 
-var Users = React.createClass({
+var SignUp = React.createClass({
   /**
    * Initialization
    */
@@ -30,7 +28,7 @@ var Users = React.createClass({
 
   getDefaultProps: function() {
     return {
-      layout: DefaultLayout
+      layout: SignUpLayout
     };
   },
 
@@ -40,36 +38,18 @@ var Users = React.createClass({
   render: function() {
     if (DEBUG) {
       console.log('[*] ' + _name + ':render ---');
-      console.log('      users:')
-      console.table(this.state.users);
-      console.log('      editUser:');
-      console.table([this.state.editUser]);
+      console.log('      user:');
+      console.table([this.state.user]);
     }
     return (
       <div>
-        <h1>Users</h1>
+        <h1>Sign Up</h1>
         <hr/>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">{this.state.editUser.id ? "Edit" : "New"}</h3>
-          </div>
-          <div className="panel-body">
-            <UserForm user={this.state.editUser} className="form-inline" />
+        <div className="row">
+          <div className="col-lg-6">
+            <UserForm user={this.state.user} />
           </div>
         </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.users.map(function(element) {
-              return (<UserElement data={element} key={element.id} underEdit={element.id === this.state.editUser.id} />);
-            }, this)}
-          </tbody>
-        </table>
       </div>
     );
   },
@@ -86,6 +66,10 @@ var Users = React.createClass({
     this.setState(getUserState());
   },
 
+  _afterSave: function() {
+    RouteActions.setRoute('/work_logs');
+  },
+
   /**
    * Life-cycle Methods
    */
@@ -94,7 +78,6 @@ var Users = React.createClass({
       console.log('[*] ' + _name + ':componentWillMount ---');
     }
     UserStore.addChangeListener(this._change);
-    UserRequestActions.fetchUsers();
   },
   componentDidMount: function() {
     if (DEBUG) {
@@ -113,4 +96,4 @@ var Users = React.createClass({
   }
 });
 
-module.exports = Users;
+module.exports = SignUp;

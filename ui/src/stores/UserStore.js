@@ -10,6 +10,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('react/lib/Object.assign');
 var Constants = require('../constants/ActionTypes');
+var RouteActions = require('../actions/RouteActions');
+var SessionStore = require('./SessionStore');
 
 /**
  * Variables
@@ -142,6 +144,10 @@ AppDispatcher.register(function(payload) {
 
     case Constants.USER_CREATE_RESPONSE:
       UserStore.addUser(payload.data);
+      if (window.location.href.match(/signup/)) {
+        SessionStore.setSession(payload.data);
+        setTimeout(RouteActions.setRoute, 500, '/');
+      }
       break;
 
     case Constants.USER_DESTROY_RESPONSE:
