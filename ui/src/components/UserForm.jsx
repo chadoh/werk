@@ -56,7 +56,12 @@ var UserForm = React.createClass({
           &nbsp;
           {this.state.error}
         </div>
-      </div>
+      </div>;
+    var extraFields = !this.state.user.id ? '' :
+      <div className="form-group">
+        <label htmlFor="hours">How many hours a day do you want to work?</label>
+        <input required type="number" step="0.5" className="form-control" ref="hours" id="hours" value={this.state.user.preferred_hours_per_day} onChange={this._setHours} />
+      </div>;
     return (
       <div>
         {errors}
@@ -66,13 +71,14 @@ var UserForm = React.createClass({
             <input required type="text" className="form-control" ref="email" id="email" value={this.state.user.email} onChange={this._setEmail} />
           </div>
           <div className="form-group">
-            <label htmlFor="work-date">Password</label>
+            <label htmlFor="password">Password</label>
             <input required type="password" className="form-control" ref="password" id="password" value={this.state.user.password} onChange={this._setPassword} />
           </div>
           <div className="form-group">
-            <label htmlFor="work-date">Password confirmation</label>
+            <label htmlFor="confirmation">Password confirmation</label>
             <input required type="password" className="form-control" ref="confirmation" id="confirmation" value={this.state.user.password_confirmation} onChange={this._setConfirmation} />
           </div>
+          {extraFields}
           <button type="submit" className="btn btn-default">Save</button>
         </form>
       </div>
@@ -105,6 +111,12 @@ var UserForm = React.createClass({
     this.setState({user: user});
   },
 
+  _setHours: function(e) {
+    var user = this._dupeUser();
+    user.preferred_hours_per_day = e.target.value;
+    this.setState({user: user});
+  },
+
   _submit: function(e) {
     e.preventDefault();
 
@@ -112,7 +124,8 @@ var UserForm = React.createClass({
       id: this.state.user.id,
       email: this.state.user.email,
       password: this.state.user.password,
-      password_confirmation: this.state.user.password_confirmation
+      password_confirmation: this.state.user.password_confirmation,
+      preferred_hours_per_day: this.state.user.preferred_hours_per_day
     });
   },
 

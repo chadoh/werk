@@ -71,7 +71,9 @@ var Navbar = React.createClass({
       loginStuff = '';
     } else if (this.state.session.email) {
       loginStuff = <p className="navbar-text navbar-right">
-        Signed in as {this.state.session.email} &ndash;&nbsp;
+        Signed in as&nbsp;
+        <Link to="/profile">{this.state.session.email}</Link>
+        &nbsp;&ndash;&nbsp;
         <a href="#" onClick={this._signOut} className="navbar-link">Sign Out</a>
       </p>
     } else {

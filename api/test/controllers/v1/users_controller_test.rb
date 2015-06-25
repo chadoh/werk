@@ -19,6 +19,11 @@ module V1
       end
       assert_response :success
       assert_equal Mime::JSON, response.content_type
+
+      json = JSON.parse(response.body)
+      assert_equal 'hi@chadoh.com', json['email']
+      assert_equal 'bbubbles', json['password']
+      assert_equal 5, json['preferred_hours_per_day']
     end
 
     test "updating a user" do
@@ -36,6 +41,8 @@ module V1
 
       json = JSON.parse response.body
       assert_not_nil json['email']
+      assert_nil json['password']
+      assert_not_nil json['preferred_hours_per_day']
     end
 
     test "#destroy returns 202 accepted" do
@@ -60,6 +67,7 @@ module V1
       json = JSON.parse(response.body)
       assert_equal user.email, json['email']
       assert_equal 'password', json['password']
+      assert_equal user.preferred_hours_per_day, json['preferred_hours_per_day']
     end
   end
 end

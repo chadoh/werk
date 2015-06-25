@@ -106,6 +106,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
       console.log([_editUser]);
     }
     var updated = _users.filter(function(log) { return log.id === data.id })[0];
+    if (!updated) return;
     for (var key in data) {
       updated[key] = data[key];
     }

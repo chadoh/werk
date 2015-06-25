@@ -3,31 +3,31 @@
  */
 'use strict';
 var DEBUG = false;
-var _name = 'SignUp.jsx';
+var _name = 'Profile.jsx';
 var React = require('react');
-var SignUpLayout = React.createFactory(require('../layouts/SignUp'));
-var UserStore = require('../stores/UserStore');
+var DefaultLayout = React.createFactory(require('../layouts/Default'));
+var SessionStore = require('../stores/SessionStore');
 var UserForm = React.createFactory(require('../components/UserForm'));
 
-function getUserState() {
+function getState() {
   return {
-    user: UserStore.getEditUser()
+    user: SessionStore.getSession()
   }
 }
 
-var SignUp = React.createClass({
+var Profile = React.createClass({
   /**
    * Initialization
    */
   displayName: _name,
 
   getInitialState: function() {
-    return getUserState();
+    return getState();
   },
 
   getDefaultProps: function() {
     return {
-      layout: SignUpLayout
+      layout: DefaultLayout
     };
   },
 
@@ -40,9 +40,9 @@ var SignUp = React.createClass({
       console.log('      user:');
       console.table([this.state.user]);
     }
-    return (
+    var content = !this.state.user.email ? <h1>Please sign in</h1> :
       <div>
-        <h1>Sign Up</h1>
+        <h1>Edit Your Settings</h1>
         <hr/>
         <div className="row">
           <div className="col-lg-6">
@@ -50,7 +50,7 @@ var SignUp = React.createClass({
           </div>
         </div>
       </div>
-    );
+    return content
   },
 
   /**
@@ -60,9 +60,9 @@ var SignUp = React.createClass({
     if (DEBUG) {
       console.log('[*] ' + _name + ':_change ---');
       console.log('state: ');
-      console.log(getUserState());
+      console.log(getState());
     }
-    this.setState(getUserState());
+    this.setState(getState());
   },
 
   /**
@@ -72,7 +72,7 @@ var SignUp = React.createClass({
     if (DEBUG) {
       console.log('[*] ' + _name + ':componentWillMount ---');
     }
-    UserStore.addChangeListener(this._change);
+    SessionStore.addChangeListener(this._change);
   },
   componentDidMount: function() {
     if (DEBUG) {
@@ -87,8 +87,8 @@ var SignUp = React.createClass({
     if (DEBUG) {
       console.log('[*] ' + _name + ':componentWillUnmount ---');
     }
-    UserStore.removeChangeListener(this._change);
+    SessionStore.removeChangeListener(this._change);
   }
 });
 
-module.exports = SignUp;
+module.exports = Profile;

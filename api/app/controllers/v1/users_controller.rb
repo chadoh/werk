@@ -8,7 +8,7 @@ module V1
     def create
       @user = User.new user_params
       if @user.save
-        render json: { id: @user.id, email: @user.email, password: user_params[:password] }
+        render json: { id: @user.id, email: @user.email, password: user_params[:password], preferred_hours_per_day: @user.preferred_hours_per_day }
       else
         render json: { error: @user.errors.full_messages.join('; ')}, status: :unprocessable_entity
       end
@@ -32,7 +32,7 @@ module V1
     def signin
       user = User.find_by_email(params[:email])
       if user && user.valid_password?(params[:password])
-        render json: { email: params[:email], password: params[:password] }
+        render json: { id: user.id, email: params[:email], password: params[:password], preferred_hours_per_day: user.preferred_hours_per_day }
       else
         render json: { error: "Email or password incorrect" }, status: :unauthorized
       end
@@ -41,7 +41,7 @@ module V1
     private
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user).permit(:email, :password, :password_confirmation, :preferred_hours_per_day)
     end
   end
 end

@@ -82,7 +82,10 @@ var SessionStore = assign({}, EventEmitter.prototype, {
 
   setSession: function(data) {
     this.setError(null);
-    putSessionInCookie(data);
+    var _session = this.getSession(), newSession = {};
+    for (var key in _session) newSession[key] = _session[key];
+    for (var key in data) newSession[key] = data[key];
+    putSessionInCookie(newSession);
   },
 
   getError: function() {
@@ -121,6 +124,10 @@ AppDispatcher.register(function(payload) {
 
     case Constants.SIGN_IN_RESPONSE:
       SessionStore.setSession(payload.data);
+      break;
+
+    case Constants.USER_UPDATE_RESPONSE:
+      if (SessionStore.getSession().id === payload.data.id) SessionStore.setSession(payload.data);
       break;
 
     case Constants.SIGN_OUT:
