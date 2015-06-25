@@ -4,8 +4,16 @@ one:
   email: one@example.com
   encrypted_password: <%= Devise.bcrypt(User, 'password') %>
   preferred_hours_per_day: 1.5
+  is_admin: false
 
 two:
   email: two@example.com
   encrypted_password: <%= Devise.bcrypt(User, 'password') %>
   preferred_hours_per_day: 2.5
+  is_admin: false
+
+admin:
+  email: admin@example.com
+  encrypted_password: <%= Devise.bcrypt(User, 'password') %>
+  preferred_hours_per_day: 3.5
+  is_admin: true
